@@ -10,12 +10,13 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+library(scales)
 library(tidyverse)
 ```
 
-**Question 1**
+***Question 1***
 
-*a)*
+**a)**
 
 If the returner knows the server will serve to the forehand, their optimal strategy is to cheat to the forehand because their win probability is 0.5 which is higher than 0.2 for cheating backhand.
 
@@ -23,7 +24,7 @@ If the server knows the returner will cheat to the forehand, their optimal strat
 
 This does not represent a pure strategy Nash equilibrium because there is no one strategy that is optimal for both players.
 
-*b)*
+**b)**
 
 Payoff for the returner if they cheat forehand: $(x) * (0.5) + (1-x) * (0.3)$
 
@@ -39,7 +40,7 @@ $0.6x = 0.3$
 
 $x = 0.5 = \hat{x}$
 
-*c)*
+**c)**
 
 Payoff for the server if they serve forehand: $(y) * (0.5) + (1-y) * (0.8)$
 
@@ -55,16 +56,35 @@ $0.6y = 0.2$
 
 $y = 0.05 = \hat{y}$
 
-*d)*
+**d)**
+
+```{r}
+pctWon <- (0.5)*(0.05)*(0.7) + (0.5)*(0.95)*(0.8) + (0.5)*(0.95)*(0.4) + (0.5)*(0.05)*(0.7)
+```
 
 
-**Question 2**
+$(P_{SF})*(P_{CF})*(0.7) + (P_{SF})*(1-P_{CF})*(0.8) + (1-P_{SF})*(1-P_{CF})*(0.4) + (1-P_{SF})*(P_{CF})*(0.7)$
 
-*i)*
+Where,
+
+Probability of serving forehand = $P_{SF}$ = 0.5
+
+Probability of cheating forehand = $P_{CF}$ = 0.05
+
+Plugging in the values, you get:
+
+$(0.5)*(0.05)*(0.7) + (0.5)*(0.95)*(0.8) + (0.5)*(0.95)*(0.4) + (0.5)*(0.05)*(0.7)$ = `r pctWon`
+
+so the server won `r dollar((pctWon * 100), prefix = NULL)`% of the points.
+
+
+***Question 2***
+
+**i)**
 
 Expected goals from 20 shots: $20 * 0.057 = 1.14$ goals
 
-*ii)*
+**ii)**
 
 Expected points from taking the one goal: 1 (from the overtime average)
 
@@ -96,7 +116,7 @@ Thus, the expected points per game from taking the shots is:
 
 Because `r expectedPoints_old` > 1, the team should take the 20 shots. It is worth noting, however, that if the 10,000 simulations are run repeatedly, there are simulations in which the expected points are below 1. However, on the whole, the value is usually greater than 1. 
 
-*iii)*
+**iii)**
 
 The methodology is largely the same. However, the expected points for taking the goal rises to 1.5 because the average points for going to overtime is (2+1)/2 which is 1.5.
 
@@ -108,7 +128,7 @@ The new value of points per game from taking the shots is:
 
 Because `r expectedPoints_today` < 1.5, the team should take the guaranteed goal and go to overtime. 
 
-*iv)*
+**iv)**
 
 The expected points for taking the goal remains at 1.5 but the value for a regulation win has gone up to 3 so the expected points for taking the shots needs to be re-calculated.
 
@@ -118,7 +138,7 @@ Again using the 10,000 replication of 20 shots simulation data, the only change 
 
 Because `r expectedPoints_new` > 1.5, the team should opt for the 20 shots over the guaranteed goal. 
 
-*v)*
+**v)**
 
 The expected points for taking the goal returns to 1.
 
@@ -148,14 +168,22 @@ The new value of points per game from taking the shots is:
 
 Because `r expectedPoints_v` < 1, the team should take the guaranteed goal and go to overtime.
 
-**Question 3**
+***Question 3***
 
+**i)**
 
+If I were to score the second touchdown, I would be indifferent between kicking the extra point and going for two. Kicking the extra point is a guaranteed point and would send the game to overtime where I would have a 50% chance of winning. Going for two also gives me a 50% chance of winning because I have a 50% probabilty of conversion. 
 
-**Question 4**
+Therefore, after scoring the first touchdown I should also be indifferent between kicking the extra point and going for two. Scoring a second touchdown is independent of when I kick it or go for two, so the expected payoffs should be the same as after I've scored the second touchdown.
 
-The optimal bidding value would be your team's expected points from where you start your drive. 
+**ii)**
 
-**Question 5**
+NFL coaches do not usually follow this strategy. They are much more likely to kick the extra point and go to overtime than to risk it and go for two. The deviation from the optimal strategy is do to risk aversion. NFL coaches are afraid of going for two, not making it, and getting crucified by the press/media/analysts. Similary, soccer players rarely kick the ball straight down the middle on PKs because if they miss, they will look like a fool. NFL coaches are scared of looking like a fool for going against "conventional" wisdom. 
+
+***Question 4***
+
+In order to find the optimal bidding value for receiving the kickoff, you would need to calculate how much you value having possession at a given yard line. In other words, what is the expected point differential as a result of receiving the kickoff. That differential should be how much you bid. It is more challenging to calculate the EP of receiving the kickoff because you don't necessarily know where you will start with the ball. You would have to calculate the probability that you take a touchback and the probability that you return the kick and attach those probabilities to the 25 yard line for the touchback and your average return distance for the return. From there, you can calculate the EP of having first and ten at the start of the game from each location weighted by the probability of whether you take the touchback or return it. From the Levitt and Kovash paper, the value of first and ten from your own 25 yard line is just under 1 point. Assuming your team didn't return any kickoffs, you should bid just under 1 point for starting with possession. 
+
+***Question 5***
 
 If you are playing under college overtime rules, you will be more inclined to take risks such as going for it on 4th down than you would if you are playing under NFL overtime rules. The difference in strategy is due to the higher probability of an upset in NFL overtime outcomes. In college, the better team usually wins in overtime meaning you would want to avoid taking your worse team to overtime. In the NFL, on the other hand, the team that wins the coin flip is more likely to win regardless of skill. Thus, you would be more confident in pulling off an overtime upset in the NFL and wouldn't be as risky in your play calling during regulation. 
